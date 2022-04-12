@@ -12,7 +12,7 @@ of online websites periodically. Program operation:
 
 ## What to have in mind
 Accidentally made it a DDoS attack bot midway through
-development. 
+development but that issue was fixed and this will not be bringing anything down. 
  - Don't use on small businesses and/or small websites as they likely won't have the means to block your high traffic and will crash. That is a crime.
  - Apply a Sleep() step between iterations if I'm ever going to use it as an actual status check bot.
  - Use multiple websites instead of just a few in the websites slice. That way the request load is smaller for the individual websites.
