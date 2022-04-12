@@ -5,8 +5,6 @@ import (
 	"net/http"
 	"os"
 	"time"
-
-	"github.com/buger/goterm"
 )
 
 func main() {
@@ -28,14 +26,29 @@ func main() {
 
 	/* Main loop */
 	for i := 0; true; i++ {
+		/* Sleep so it is not too suspicious network
+		traffic from the website's viewpoint */
 		time.Sleep(2 * time.Second)
+
+		/* Launch the thread to do the checkup */
 		go checkUrl(websites[i%len(websites)], channel)
-		fmt.Print("\r", <-channel, " - ", i+1, " tries")
-		goterm.Flush()
+
+		/* Whenever a thread finishes the request and
+		responds into the channel, print their returned
+		value. */
+		fmt.Print(<-channel)
 	}
 
 }
 
+/**
+@param channel - Channels in go are like a pipe in C.
+	All threads will, this way, send their response in
+	the same channel and the main thread will then be
+	waiting for responses independant of who sent.
+
+@param url - Website's url intended to check.
+*/
 func checkUrl(url string, channel chan string) {
 	if isWebsiteUp(url) {
 		channel <- (url + " is up!")
